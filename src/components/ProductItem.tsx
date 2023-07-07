@@ -5,22 +5,22 @@ import { ReducerActionType, ReducerAction } from "../context/CardPorvider";
 
 type PropsTypes = {
   product: ProductType;
-  dispatch: React.Dispatch<ReducerActionType>;
-  REDUCER_ACTIONS: ReducerAction;
+  dispatch: React.Dispatch<ReducerAction>;
+  REDUCER_ACTIONS: ReducerActionType;
   inCart: boolean;
 };
 const ProductItem = ({
   product,
   dispatch,
-  REDUCER_ACTION,
+  REDUCER_ACTIONS,
   inCart,
-}: ProductType): React.ReactElement => {
+}: PropsTypes): React.ReactElement => {
   const img: string = new URL(`../images/${product.sku}.jpg`, import.meta.url)
     .href;
-  console.log(img);
+
   const onAddToCart = () =>
     dispatch({
-      type: REDUCER_ACTION.ADD,
+      type: REDUCER_ACTIONS.ADD,
       payload: { ...product, quantity: 1 },
     });
 
