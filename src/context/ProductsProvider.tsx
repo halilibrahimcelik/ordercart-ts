@@ -1,52 +1,74 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useState, useEffect } from "react";
 
 export type ProductType = {
-    sku:string
-    name:string
-    price:number
-}
+  sku: string;
+  name: string;
+  price: number;
+};
 
-const initState:ProductType[] = [
-    {
-      "sku": "item0001",
-      "name": "Widget",
-      "price": 9.99
-    },
-    {
-      "sku": "item0002",
-      "name": "Premium Widget",
-      "price": 19.99
-    },
-    {
-      "sku": "item0003",
-      "name": "Deluxe Widget",
-      "price": 29.99
-    }
-  ]
+// const initState:ProductType[] = [
 
-  export type UseProductsContextType = {
-    products:ProductType[]
-  }
-  const initContextState:UseProductsContextType = {
-    products:[],
-  }
+// ]
 
-  const ProductsContext=createContext<UseProductsContextType>(initContextState)
+const initState: ProductType[] = [
+  {
+    sku: "item0001",
+    name: "Widget",
+    price: 9.99,
+  },
+  {
+    sku: "item0002",
+    name: "Premium Widget",
+    price: 19.99,
+  },
+  {
+    sku: "item0003",
+    name: "Deluxe Widget",
+    price: 29.99,
+  },
+];
 
+export type UseProductsContextType = {
+  products: ProductType[];
+};
+const initContextState: UseProductsContextType = {
+  products: [],
+};
 
-  type ChildrenType={
-    children?:React.ReactElement | React.ReactElement[];
-  }
+const ProductsContext = createContext<UseProductsContextType>(initContextState);
 
-export const ProductsProvider = ({children}:ChildrenType):React.ReactElement => {
-      
-    const [products, setProducts] = useState<ProductType[]>(initState);
+type ChildrenType = {
+  children?: React.ReactElement | React.ReactElement[];
+};
 
-    return <ProductsContext.Provider value={{products}}>
+export const ProductsProvider = ({
+  children,
+}: ChildrenType): React.ReactElement => {
+  const [products, setProducts] = useState<ProductType[]>(initState);
 
-        {children}
+  //this is for fetching data from server
+  // useEffect(() => {
+
+  //   const fetchProducts = async ():Promise <ProductType[] |void> => {
+  //     try {
+  //       const data= await fetch("http://localhost:3500/products");
+  //       const response= await data.json();
+  //       return response;
+  //     } catch (error) {
+  //     if(error instanceof Error){
+  //       console.log(error.message);
+  //     }
+
+  //    }
+  //   }
+  //   fetchProducts().then(products=>setProducts(products as ProductType[]));
+  // }, []);
+
+  return (
+    <ProductsContext.Provider value={{ products }}>
+      {children}
     </ProductsContext.Provider>
-
-    }
+  );
+};
 
 export default ProductsContext;
